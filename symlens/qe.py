@@ -34,12 +34,12 @@ class HardenedTT(object):
         h = hardening
         f_bias,F_bias,_ = get_mc_expressions(hardening,'TT')
         f_phi,F_phi,_ = get_mc_expressions(estimator,'TT')
-        f_bh,F_bh,_ = get_mc_expressions(f'{h}-hardened','TT',estimator_to_harden=estimator)
+        f_bh,F_bh,_ = get_mc_expressions('{h}-hardened'.format(h),'TT',estimator_to_harden=estimator)
         self.fdict = feed_dict
         # 1 / Response of the biasing agent to the biasing agent
-        self.fdict[f'A{h}_{h}_L'] = A_l_custom(shape,wcs,feed_dict,f_bias,F_bias,xmask=xmask,ymask=ymask,groups=None,kmask=kmask)
+        self.fdict['A{h}_{h}_L'.format(h, h)] = A_l_custom(shape,wcs,feed_dict,f_bias,F_bias,xmask=xmask,ymask=ymask,groups=None,kmask=kmask)
         # 1 / Response of the biasing agent to CMB lensing
-        self.fdict[f'Aphi_{h}_L'] = A_l_custom(shape,wcs,feed_dict,f_phi,F_bias,xmask=xmask,ymask=ymask,groups=None,kmask=kmask)
+        self.fdict['Aphi_{h}_L'.format(h)] = A_l_custom(shape,wcs,feed_dict,f_phi,F_bias,xmask=xmask,ymask=ymask,groups=None,kmask=kmask)
         self.Al = A_l_custom(shape,wcs,feed_dict,f_bh,F_bh,xmask=xmask,ymask=ymask,groups=None,kmask=kmask) if Al is None else Al
         self.F_bh = F_bh
         self.xmask = xmask
